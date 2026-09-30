@@ -5,20 +5,20 @@ void delay_init(){
     RCC->APB2ENR|=RCC_APB1ENR_TIM2EN;
     TIM2->CNT=0;
     TIM2->PSC=7;
-    TIM2->ARR=0x4f;
+    TIM2->ARR=0xffff;
     TIM2->CNT=0;
-    TIM2->CR1=1;
+    TIM2->CR1|=TIM_CR1_CEN;
     
 }
 void delay_us(uint32_t us){
     while(t_delay<us){
-        t_delay=0x4f*overflow + TIM2->CNT;
+        t_delay=0x10000*overflow + TIM2->CNT;
     }
     t_delay==0;
 }
 void delay_ms(uint32_t ms){
     while(t_delay<(1000*ms)){
-        t_delay=0x4f*overflow + TIM2->CNT;
+        t_delay=0x10000*overflow + TIM2->CNT;
     }
     t_delay==0;
 
@@ -27,7 +27,7 @@ void timer_init(){
     RCC->APB2ENR|=RCC_APB1ENR_TIM2EN;
     TIM2->CNT=0;
     TIM2->PSC=7;
-    TIM2->ARR=0x4f;
+    TIM2->ARR=0xffff;
     TIM2->CNT=0;
     TIM2->DIER|=TIM_DIER_UIE;
     TIM2->EGR|=TIM_EGR_UG;
