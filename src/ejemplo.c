@@ -11,6 +11,6 @@ void setup(){
 }
 void loop(){
 valorADC=adc_read(1);
-duty=map(valorADC,0,4095,0,100);
+duty=valorADC*100/4095;
 pwm(1, duty);
 }
